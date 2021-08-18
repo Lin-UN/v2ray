@@ -2174,7 +2174,6 @@ create_v2ray_config_text() {
 			echo " 备注: 广告拦截已开启.."
 			echo
 		fi
-		get_v2ray_vmess_URL_link
 	elif [[ $v2ray_transport == 33 ]]; then
 		echo
 		echo '---提示..这是 VLESS 服务器配置---'
@@ -2219,7 +2218,6 @@ create_v2ray_config_text() {
 		echo "伪装类型 (header type) = ${header}"
 		echo
 	fi
-	get_v2ray_vmess_URL_link
 	if [[ $v2ray_transport -ge 18 && $v2ray_transport -ne 33 ]] && [[ $ban_ad ]]; then
 		echo "备注: 动态端口已启用...广告拦截已开启..."
 		echo
@@ -2234,6 +2232,7 @@ create_v2ray_config_text() {
 	echo
 	echo "V2Ray 客户端使用教程: https://233v2.com/post/4/"
 	echo
+	v2ray url
 }
 get_v2ray_config_info_link() {
 	echo
