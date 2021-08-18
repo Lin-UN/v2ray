@@ -169,8 +169,9 @@ v2ray_config() {
 		echo "备注1: 含有 [dynamicPort] 的即启用动态端口.."
 		echo "备注2: [utp | srtp | wechat-video | dtls | wireguard] 分别伪装成 [BT下载 | 视频通话 | 微信视频通话 | DTLS 1.2 数据包 | WireGuard 数据包]"
 		echo
-		read -p "$(echo -e "(默认协议: ${cyan}TCP$none)"):" v2ray_transport
-		[ -z "$v2ray_transport" ] && v2ray_transport=1
+		read -p "$(echo -e "(默认名称: ${cyan}007$none)"):" v2ray_name
+		read -p "$(echo -e "(默认协议: ${cyan}WebSocket$none)"):" v2ray_transport
+		[ -z "$v2ray_transport" ] && v2ray_transport=3
 		case $v2ray_transport in
 		[1-9] | [1-2][0-9] | 3[0-3])
 			echo
@@ -193,7 +194,7 @@ v2ray_port_config() {
 		tls_config
 		;;
 	*)
-		local random=$(shuf -i20001-65535 -n1)
+		local random=10001
 		while :; do
 			echo -e "请输入 "$yellow"V2Ray"$none" 端口 ["$magenta"1-65535"$none"]"
 			read -p "$(echo -e "(默认端口: ${cyan}${random}$none):")" v2ray_port
@@ -581,7 +582,7 @@ shadowsocks_port_config() {
 			fi
 			if [[ $tls && $ssport == "80" ]] || [[ $tls && $ssport == "443" ]]; then
 				echo
-				echo -e "由于你已选择了 "$green"WebSocket + TLS $none或$green HTTP/2"$none" 传输协议."
+				echo -e "由于你已选择了 "$green" + TLS $none或$green HTTP/2"$none" 传输协议."
 				echo
 				echo -e "所以不能选择 "$magenta"80"$none" 或 "$magenta"443"$none" 端口"
 				error
@@ -802,7 +803,8 @@ install_v2ray() {
 		cp -rf $(pwd)/* /etc/v2ray/233boy/v2ray
 	else
 		pushd /tmp
-		git clone https://github.com/233boy/v2ray -b "$_gitbranch" /etc/v2ray/233boy/v2ray --depth=1
+		git clone https://github.com/Lin-UN/v2ray -b main /etc/v2ray/233boy/v2ray
+		sed -i "s#xxx#${v2ray_name}#" /etc/v2ray/233boy/v2ray/v2ray.sh
 		popd
 
 	fi
@@ -956,6 +958,7 @@ install() {
 	get_ip
 	config
 	show_config_info
+	v2ray url
 }
 uninstall() {
 
@@ -1011,11 +1014,8 @@ esac
 clear
 while :; do
 	echo
-	echo "........... V2Ray 一键安装脚本 & 管理脚本 by 233v2.com .........."
+	echo "........... V2Ray 一键安装脚本 & 管理脚本  .........."
 	echo
-	echo "帮助说明: https://233v2.com/post/1/"
-	echo
-	echo "搭建教程: https://233v2.com/post/2/"
 	echo
 	echo " 1. 安装"
 	echo
