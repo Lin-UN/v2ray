@@ -2230,7 +2230,6 @@ create_v2ray_config_text() {
 	fi
 	echo "---------- END -------------"
 	echo
-	echo "V2Ray 客户端使用教程: https://233v2.com/post/4/"
 	echo
 	v2ray url
 }
