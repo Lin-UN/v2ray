@@ -2174,6 +2174,7 @@ create_v2ray_config_text() {
 			echo " 备注: 广告拦截已开启.."
 			echo
 		fi
+		get_v2ray_vmess_URL_link
 	elif [[ $v2ray_transport == 33 ]]; then
 		echo
 		echo '---提示..这是 VLESS 服务器配置---'
@@ -2218,6 +2219,7 @@ create_v2ray_config_text() {
 		echo "伪装类型 (header type) = ${header}"
 		echo
 	fi
+	get_v2ray_vmess_URL_link
 	if [[ $v2ray_transport -ge 18 && $v2ray_transport -ne 33 ]] && [[ $ban_ad ]]; then
 		echo "备注: 动态端口已启用...广告拦截已开启..."
 		echo
@@ -2274,11 +2276,9 @@ get_v2ray_vmess_URL_link() {
 		local vmess="vmess://$(cat /etc/v2ray/vmess_qr.json | base64 -w 0)"
 	fi
 	echo
-	echo "---------- V2Ray vmess URL / V2RayNG v0.4.1+ / V2RayN v2.1+ / 仅适合部分客户端 -------------"
 	echo
 	echo -e ${cyan}$vmess${none}
 	echo
-	echo -e "${yellow}免被墙..推荐使用JMS: ${cyan}https://getjms.com${none}"
 	echo
 	rm -rf /etc/v2ray/vmess_qr.json
 }
